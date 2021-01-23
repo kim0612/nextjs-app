@@ -4,8 +4,10 @@ import Gnb from "./Gnb.js"
 export default function Top() {
   return (
     <div>
-      <img src="./img/groot2.jpg" alt="logo"/>
-      <Header as="h1">KIM0612</Header>
+      <div style={{display:"flex"}}>
+        <img style={{width: "10vw"}} src="./img/groot2.jpg" alt="logo"/>
+        <Header as="h1" style={{ alignSelf:"center",paddingLeft: 10}}>KIM0612</Header>
+      </div>
       <Gnb/>
     </div>
   );
