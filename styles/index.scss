@@ -1,0 +1,21 @@
+span{
+  display: block;
+  margin-bottom: 5px;
+}
+
+.itemBox{
+  text-align: center;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  .itemName{
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .itemDetails{
+    font-size: 12px;
+  }
+  .itemPrice{
+    color: #8DC3C6;
+  }
+}

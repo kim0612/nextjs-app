@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from "next/head"
 import axios from 'axios';
 
 function Users() {
@@ -31,13 +32,18 @@ function Users() {
   if (error) return <div>에러가 발생했습니다</div>;
   if (!users) return null;
   return (
-    <ul>
-      {users.map(user => (
-        <li key={user.id}>
-          {user.username} ({user.name})
-        </li>
-      ))}
-    </ul>
+    <div>
+      <Head>
+        <title>axios 실습</title>
+      </Head>
+      <ul>
+        {users.map(user => (
+          <li key={user.id}>
+            {user.username} ({user.name})
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
