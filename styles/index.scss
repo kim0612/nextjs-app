@@ -3,19 +3,31 @@ span{
   margin-bottom: 5px;
 }
 
-.itemBox{
-  text-align: center;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  .itemName{
-    font-size: 15px;
-    font-weight: bold;
+.itemLink{
+  color: black;
+  .itemBox{
+    text-align: center;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    .itemName{
+      font-size: 15px;
+      font-weight: bold;
+    }
+    .itemDetails{
+      font-size: 12px;
+    }
+    .itemPrice{
+      color: #8DC3C6;
+    }
   }
-  .itemDetails{
-    font-size: 12px;
+}
+
+.id-wrapper{
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  .id-info{
+    padding: 30px 0 0 20px;
   }
-  .itemPrice{
-    color: #8DC3C6;
-  }
+
 }
