@@ -1,4 +1,4 @@
-import { Button, Divider} from 'semantic-ui-react'
+import { Button, Divider, Loader} from 'semantic-ui-react'
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -7,41 +7,61 @@ import { useEffect, useState } from "react";
 const Post = () => {
   const router = useRouter();
   const { id } = router.query;
+  const API_URL = `https://makeup-api.herokuapp.com/api/v1/products/${id}.json`;
 
   const [prod, setProd] = useState({});
-
-  const API_URL =
-    `https://makeup-api.herokuapp.com/api/v1/products/${id}.json`;
+  const [isLoading, setIsLoading] = useState(true);
+  
 
   function getData() {
-    axios.get(API_URL).then(function (response) {
-      console.log(response.data);
-      setProd(response.data);
-    });
+    axios
+      .get(API_URL)
+      .then(function (response) {
+        setProd(response.data);
+        console.log(prod, response.data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
-  useEffect(getData,[]);
+  // useEffect(getData,[]);  이거 왜 안돼??? 이걸로 했을 때, 새로고침하면 에러 뜸..!
+
+  useEffect(() => {
+    if (id && id > 0) {
+      getData();
+    }
+  }, [id]);
 
 
   return (
-    <div className="post">
-        {/* Post : {id} <br/> */}
-        <div className="id-wrapper">
-          <img src={prod.image_link} alt="product image"/>
-          <div className="id-info">
-            <span style={{fontSize:"18px", fontWeight:'bold'}}>{prod.name}</span> <br/>
-            <span style={{fontSize:"18px", fontWeight:'bold', color:"#8DC3C6"}}>$ {prod.price}</span> <br/>
-            <span style={{fontSize:"15px"}}>{prod.product_type}</span> <br/>
-            <Button color="orange">구매하기</Button>
+    <div>
+      {isLoading
+        ? 
+          <div style={{paddingTop:"200px"}}>
+           <Loader inline="centered" active>Loading</Loader>
           </div>
-        </div>
-
-        <Divider style={{margin:"30px 0"}} />
-        <p>
-          <strong>Description</strong> <br/><br/>
-          {prod.description}
-        </p>
-        <Divider style={{marginTop:"50px"}}/>
+        :
+          <div>
+            {/* Post : {id} <br/> */}
+            <div className="id-wrapper">
+              <img src={prod.image_link} alt="product image"/>
+              <div className="id-info">
+                <span style={{fontSize:"18px", fontWeight:'bold'}}>{prod.name}</span> <br/>
+                <span style={{fontSize:"18px", fontWeight:'bold', color:"#8DC3C6"}}>$ {prod.price}</span> <br/>
+                <span style={{fontSize:"15px"}}>{prod.product_type}</span> <br/>
+                <Button color="orange">구매하기</Button>
+              </div>
+            </div>
+            <Divider style={{margin:"30px 0"}} />
+            <p>
+              <strong>Description</strong> <br/><br/>
+              {prod.description}
+            </p>
+            <Divider style={{marginTop:"50px"}}/>
+          </div>
+      }
     </div>
   );
 };
@@ -52,7 +72,6 @@ export default Post;
 
 
 /*
-
 api_featured_image: "//s3.amazonaws.com/donovanbailey/products/api_featured_images/000/000/495/original/open-uri20171223-4-9hrto4?1514063330"
 brand: "maybelline"
 category: null
@@ -72,5 +91,4 @@ rating: 5
 tag_list: []
 updated_at: "2017-12-23T21:08:50.624Z"
 website_link: "https://well.ca"
-
 */
