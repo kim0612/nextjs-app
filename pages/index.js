@@ -27,6 +27,7 @@ export default function Home() {
     <div>
       <Head>
         <title>Home | KIM0612</title>
+        <meta name="description" content="KIM0612 홈 입니다."></meta>
       </Head>
       {isLoading
         ? 

@@ -1,6 +1,7 @@
 import { Button, Divider, Loader} from 'semantic-ui-react'
 import axios from "axios";
 import { useRouter } from "next/router";
+import Head from "next/head"
 import { useEffect, useState } from "react";
 
 
@@ -37,6 +38,9 @@ const Post = () => {
 
   return (
     <div>
+      <Head>
+        <title>Home | KIM0612</title>
+      </Head>
       {isLoading
         ? 
           <div style={{paddingTop:"200px"}}>
