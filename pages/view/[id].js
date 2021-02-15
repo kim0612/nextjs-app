@@ -1,18 +1,15 @@
-import { Button, Divider, Loader} from 'semantic-ui-react'
+import { Button, Divider, Loader } from "semantic-ui-react";
 import axios from "axios";
-import { useRouter } from "next/router";
-import Head from "next/head"
-import { useEffect, useState } from "react";
+import Head from "next/head";
 
-
-const Post = () => {
+const Post = ({prod}) => {
+/*
   const router = useRouter();
   const { id } = router.query;
   const API_URL = `https://makeup-api.herokuapp.com/api/v1/products/${id}.json`;
 
   const [prod, setProd] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  
 
   function getData() {
     axios
@@ -22,7 +19,7 @@ const Post = () => {
         console.log(prod, response.data);
         setIsLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -34,48 +31,66 @@ const Post = () => {
       getData();
     }
   }, [id]);
-
-
+*/
   return (
     <div>
-      <Head>
-        <title>Home | KIM0612</title>
-      </Head>
-      {isLoading
-        ? 
-          <div style={{paddingTop:"200px"}}>
-           <Loader inline="centered" active>Loading</Loader>
-          </div>
-        :
-          <div>
-            {/* Post : {id} <br/> */}
-            <div className="id-wrapper">
-              <img src={prod.image_link} alt="product image"/>
-              <div className="id-info">
-                <span style={{fontSize:"18px", fontWeight:'bold'}}>{prod.name}</span> <br/>
-                <span style={{fontSize:"18px", fontWeight:'bold', color:"#8DC3C6"}}>$ {prod.price}</span> <br/>
-                <span style={{fontSize:"15px"}}>{prod.product_type}</span> <br/>
-                <Button color="orange">구매하기</Button>
-              </div>
+    { prod && (
+      <div>
+        <Head>
+          <title>{prod.name}</title>
+          <meta name="description" content={prod.description}></meta>
+        </Head>
+        <div>
+          {/* Post : {id} <br/> */}
+          <div className="id-wrapper">
+            <img src={prod.image_link} alt="product image" />
+            <div className="id-info">
+              <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                {prod.name}
+              </span>
+              <br />
+              <span style={{fontSize: "18px", fontWeight: "bold", color: "#8DC3C6"}}>
+                $ {prod.price}
+              </span>
+              <br />
+              <span style={{ fontSize: "15px" }}>
+                {prod.product_type}
+              </span>
+              <br />
+              <Button color="orange">구매하기</Button>
             </div>
-            <Divider style={{margin:"30px 0"}} />
-            <p>
-              <strong>Description</strong> <br/><br/>
-              {prod.description}
-            </p>
-            <Divider style={{marginTop:"50px"}}/>
           </div>
-      }
+          <Divider style={{ margin: "30px 0" }} />
+          <p>
+            <strong>Description</strong> <br />
+            <br />
+            {prod.description}
+          </p>
+          <Divider style={{ marginTop: "50px" }} />
+        </div>
+      </div>
+    )}
     </div>
   );
 };
-
 export default Post;
 
 
+export const getServerSideProps = async (context) => {
+  const id = context.params.id;
+  const apiUrl = `https://makeup-api.herokuapp.com/api/v1/products/${id}.json`;
+  const res = await axios.get(apiUrl);
+  const data = res.data;
 
+  return {
+    props: {
+      prod: data,
+    },
+  };
+};
 
 /*
+[ axios로 받은 response.data ]
 api_featured_image: "//s3.amazonaws.com/donovanbailey/products/api_featured_images/000/000/495/original/open-uri20171223-4-9hrto4?1514063330"
 brand: "maybelline"
 category: null
