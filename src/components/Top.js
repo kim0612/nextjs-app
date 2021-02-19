@@ -8,6 +8,7 @@ export default function Top() {
         <img style={{width: "10vw"}} src="/img/groot2.jpg" alt="logo"/>
         <Header as="h1" style={{ alignSelf:"center",paddingLeft: 10}}>KIM0612</Header>
       </div>
+      <br/>
       <Gnb/>
     </div>
   );

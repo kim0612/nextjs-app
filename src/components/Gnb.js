@@ -1,32 +1,45 @@
-import React, { Component } from 'react'
+import { useState } from 'react';
 import { Menu } from 'semantic-ui-react'
+import { useRouter } from "next/router"
 
-export default class MenuExampleInverted extends Component {
-  state = { activeItem: 'home' }
+export default function Gnb() {
+  const router = useRouter();
+  const activeItem = router.asPath;
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  function goLink(e, data) {
+    if (data.name === "home"){
+      router.push("/");
+    }
+    else if (data.name === "about"){
+      router.push("/about");
+    }
+    else if (data.name === "asdf"){
+      router.push("/asdf");
+    }
+    else{
+      router.push("/");
+    }
+  }
 
-  render() {
-    const { activeItem } = this.state
-
-    return (
+  return (
+    <div>
       <Menu inverted>
         <Menu.Item
           name='home'
-          active={activeItem === 'home'}
-          onClick={this.handleItemClick}
+          active={activeItem === '/'}
+          onClick={goLink}
         />
         <Menu.Item
-          name='messages'
-          active={activeItem === 'messages'}
-          onClick={this.handleItemClick}
+          name='about'
+          active={activeItem === '/about'}
+          onClick={goLink}
         />
         <Menu.Item
-          name='friends'
-          active={activeItem === 'friends'}
-          onClick={this.handleItemClick}
+          name='asdf'
+          active={activeItem === '/asdf'}
+          onClick={goLink}
         />
       </Menu>
-    )
-  }
+    </div>
+  );
 }
