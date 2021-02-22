@@ -2,7 +2,7 @@ import { Button, Divider, Loader } from "semantic-ui-react";
 import axios from "axios";
 import Head from "next/head";
 
-const Post = ({prod}) => {
+const Post = ({ prod, name }) => {
 /*
   const router = useRouter();
   const { id } = router.query;
@@ -42,6 +42,7 @@ const Post = ({prod}) => {
         </Head>
         <div>
           {/* Post : {id} <br/> */}
+          {`${name} 환경입니다.`}
           <div className="id-wrapper">
             <img src={prod.image_link} alt="product image" />
             <div className="id-info">
@@ -76,6 +77,7 @@ const Post = ({prod}) => {
 export default Post;
 
 
+// 'getServerSideProps'는 서버에서 동작한다!!
 export const getServerSideProps = async (context) => {
   const id = context.params.id;
   const apiUrl = `https://makeup-api.herokuapp.com/api/v1/products/${id}.json`;
@@ -85,6 +87,7 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       prod: data,
+      name: process.env.name
     },
   };
 };
