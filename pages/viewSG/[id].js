@@ -1,8 +1,20 @@
 import { Button, Divider, Loader } from "semantic-ui-react";
 import axios from "axios";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const Post = ({ prod, name }) => {
+  const router = useRouter();
+  if(router.isFallback){
+    return(
+      <div style={{padding: "100px"}}>
+        <Loader active inline="centered">
+          Loading
+        </Loader>
+      </div>
+    );
+  };
+
   return (
     <div>
     { prod && (
@@ -38,7 +50,6 @@ const Post = ({ prod, name }) => {
             <br />
             {prod.description}
           </p>
-          <Divider style={{ marginTop: "50px" }} />
         </div>
       </div>
     )}
@@ -49,12 +60,20 @@ export default Post;
 
 // 'getStaticProps', 'getStaticPaths'는 서버에서 동작한다!!
 export async function getStaticPaths() {
+  const apiUrl = process.env.apiUrl;
+  const res = await axios.get(apiUrl);
+  const data = res.data;
+
   return {
-    paths: [
-      { params: { id: '740' } },
-      { params: { id: '730' } },
-      { params: { id: '729' } }
-    ],
+    // paths: [
+    //   { params: { id: '740' } },
+    //   { params: { id: '730' } },
+    //   { params: { id: '729' } }
+    // ],
+    paths: data.slice(0,9).map(function(item){
+      return({params: {id : item.id.toString()}})
+      }
+    ),
     fallback: true,
   };
 };
