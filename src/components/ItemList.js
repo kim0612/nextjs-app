@@ -10,7 +10,7 @@ export default function ItemList(props) {
         {props.list.map(function(item) {
           return(
             <Grid.Column  key={item.id}>
-              <Link href={`/view/${item.id}`}>
+              <Link href={`/viewSG/${item.id}`}>
                 <a className="itemLink">
                   <div className="itemBox">
                     <img src={item.image_link} alt={item.name}/>
